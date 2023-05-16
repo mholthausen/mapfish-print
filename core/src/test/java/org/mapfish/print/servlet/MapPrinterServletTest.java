@@ -389,7 +389,7 @@ public class MapPrinterServletTest extends AbstractMapfishSpringTest {
             MockHttpServletRequest servletStatusRequest = new MockHttpServletRequest("GET", statusURL);
             addHeaders(servletStatusRequest);
             MockHttpServletResponse servletStatusResponse = new MockHttpServletResponse();
-            servlet.getStatus(ref, servletStatusRequest, servletStatusResponse);
+            servlet.getStatus(null, ref, servletStatusRequest, servletStatusResponse);
 
             String contentAsString = servletStatusResponse.getContentAsString();
 
@@ -410,7 +410,7 @@ public class MapPrinterServletTest extends AbstractMapfishSpringTest {
         }
 
         MockHttpServletResponse servletGetReportResponse = new MockHttpServletResponse();
-        servlet.getReport(ref, false, servletGetReportResponse);
+        servlet.getReport(null, ref, false, servletGetReportResponse);
 
         final int status = servletGetReportResponse.getStatus();
         assertEquals(HttpStatus.OK.value(), status);
@@ -474,7 +474,7 @@ public class MapPrinterServletTest extends AbstractMapfishSpringTest {
 
         final MockHttpServletRequest statusRequest = new MockHttpServletRequest();
         final MockHttpServletResponse statusResponse = new MockHttpServletResponse();
-        servlet.getStatus(ref, statusRequest, statusResponse);
+        servlet.getStatus(null, ref, statusRequest, statusResponse);
 
         final PJsonObject statusJson = parseJSONObjectFromString(statusResponse.getContentAsString());
         assertEquals("true", statusJson.getString(MapPrinterServlet.JSON_DONE));
@@ -486,7 +486,7 @@ public class MapPrinterServletTest extends AbstractMapfishSpringTest {
     private void waitForFailure(String ref) throws IOException, ServletException, InterruptedException {
         while (true) {
             MockHttpServletResponse servletGetReportResponse = new MockHttpServletResponse();
-            servlet.getReport(ref, false, servletGetReportResponse);
+            servlet.getReport(null, ref, false, servletGetReportResponse);
             final int status = servletGetReportResponse.getStatus();
             if (status == HttpStatus.ACCEPTED.value()) {
                 // still processing
@@ -517,12 +517,12 @@ public class MapPrinterServletTest extends AbstractMapfishSpringTest {
 
         // cancel directly after starting the print
         MockHttpServletResponse servletCancelResponse = new MockHttpServletResponse();
-        servlet.cancel(ref, servletCancelResponse);
+        servlet.cancel(null, ref, servletCancelResponse);
         assertEquals(HttpStatus.OK.value(), servletCancelResponse.getStatus());
 
         final MockHttpServletRequest statusRequest = new MockHttpServletRequest();
         final MockHttpServletResponse statusResponse = new MockHttpServletResponse();
-        servlet.getStatus(ref, statusRequest, statusResponse);
+        servlet.getStatus(null, ref, statusRequest, statusResponse);
 
         final PJsonObject statusJson = parseJSONObjectFromString(statusResponse.getContentAsString());
         assertEquals("true", statusJson.getString(MapPrinterServlet.JSON_DONE));
@@ -551,12 +551,12 @@ public class MapPrinterServletTest extends AbstractMapfishSpringTest {
 
         // ... then cancel
         MockHttpServletResponse servletCancelResponse = new MockHttpServletResponse();
-        servlet.cancel(ref, servletCancelResponse);
+        servlet.cancel(null, ref, servletCancelResponse);
         assertEquals(HttpStatus.OK.value(), servletCancelResponse.getStatus());
 
         final MockHttpServletRequest statusRequest = new MockHttpServletRequest();
         final MockHttpServletResponse statusResponse = new MockHttpServletResponse();
-        servlet.getStatus(ref, statusRequest, statusResponse);
+        servlet.getStatus(null, ref, statusRequest, statusResponse);
 
         final PJsonObject statusJson = parseJSONObjectFromString(statusResponse.getContentAsString());
         assertEquals("true", statusJson.getString(MapPrinterServlet.JSON_DONE));
@@ -584,12 +584,12 @@ public class MapPrinterServletTest extends AbstractMapfishSpringTest {
 
         // ... then cancel
         MockHttpServletResponse servletCancelResponse = new MockHttpServletResponse();
-        servlet.cancel(ref, servletCancelResponse);
+        servlet.cancel(null, ref, servletCancelResponse);
         assertEquals(HttpStatus.OK.value(), servletCancelResponse.getStatus());
 
         final MockHttpServletRequest statusRequest = new MockHttpServletRequest();
         final MockHttpServletResponse statusResponse = new MockHttpServletResponse();
-        servlet.getStatus(ref, statusRequest, statusResponse);
+        servlet.getStatus(null, ref, statusRequest, statusResponse);
 
         final PJsonObject statusJson = parseJSONObjectFromString(statusResponse.getContentAsString());
         assertEquals("true", statusJson.getString(MapPrinterServlet.JSON_DONE));
@@ -602,7 +602,7 @@ public class MapPrinterServletTest extends AbstractMapfishSpringTest {
         setUpConfigFiles();
 
         MockHttpServletResponse servletCancelResponse = new MockHttpServletResponse();
-        servlet.cancel("invalid-ref", servletCancelResponse);
+        servlet.cancel(null, "invalid-ref", servletCancelResponse);
         assertEquals(HttpStatus.NOT_FOUND.value(), servletCancelResponse.getStatus());
     }
 
@@ -629,7 +629,7 @@ public class MapPrinterServletTest extends AbstractMapfishSpringTest {
 
         final MockHttpServletRequest statusRequest = new MockHttpServletRequest();
         final MockHttpServletResponse statusResponse = new MockHttpServletResponse();
-        servlet.getStatus(ref, statusRequest, statusResponse);
+        servlet.getStatus(null, ref, statusRequest, statusResponse);
 
         final PJsonObject statusJson = parseJSONObjectFromString(statusResponse.getContentAsString());
         assertEquals("true", statusJson.getString(MapPrinterServlet.JSON_DONE));
@@ -689,7 +689,7 @@ public class MapPrinterServletTest extends AbstractMapfishSpringTest {
 
         final MockHttpServletRequest statusRequest = new MockHttpServletRequest();
         final MockHttpServletResponse statusResponse = new MockHttpServletResponse();
-        servlet.getStatus(ref, statusRequest, statusResponse);
+        servlet.getStatus(null, ref, statusRequest, statusResponse);
 
         final PJsonObject statusJson = parseJSONObjectFromString(statusResponse.getContentAsString());
         assertEquals("true", statusJson.getString(MapPrinterServlet.JSON_DONE));
@@ -725,7 +725,7 @@ public class MapPrinterServletTest extends AbstractMapfishSpringTest {
 
             final MockHttpServletRequest statusRequest = new MockHttpServletRequest();
             final MockHttpServletResponse statusResponse = new MockHttpServletResponse();
-            servlet.getStatus(ref, statusRequest, statusResponse);
+            servlet.getStatus(null, ref, statusRequest, statusResponse);
             final PJsonObject statusJson = parseJSONObjectFromString(statusResponse.getContentAsString());
             assertNotEquals("canceled", statusJson.getString(MapPrinterServlet.JSON_STATUS));
         }
@@ -735,7 +735,7 @@ public class MapPrinterServletTest extends AbstractMapfishSpringTest {
     private void waitForCanceled(String ref) throws IOException, ServletException, InterruptedException {
         while (true) {
             MockHttpServletResponse servletGetReportResponse = new MockHttpServletResponse();
-            servlet.getReport(ref, false, servletGetReportResponse);
+            servlet.getReport(null, ref, false, servletGetReportResponse);
             final int status = servletGetReportResponse.getStatus();
             if (status == HttpStatus.ACCEPTED.value()) {
                 // still processing
@@ -753,7 +753,7 @@ public class MapPrinterServletTest extends AbstractMapfishSpringTest {
     private void waitForNotCanceled(String ref) throws IOException, ServletException, InterruptedException {
         while (true) {
             MockHttpServletResponse servletGetReportResponse = new MockHttpServletResponse();
-            servlet.getReport(ref, false, servletGetReportResponse);
+            servlet.getReport(null, ref, false, servletGetReportResponse);
             final int status = servletGetReportResponse.getStatus();
             if (status == HttpStatus.ACCEPTED.value()) {
                 // still processing
@@ -904,7 +904,7 @@ public class MapPrinterServletTest extends AbstractMapfishSpringTest {
         MockHttpServletRequest servletStatusRequest = new MockHttpServletRequest(
             "GET", "/print/status/" + ref + ".json");
         MockHttpServletResponse servletStatusResponse = new MockHttpServletResponse();
-        servlet.getStatus(ref, servletStatusRequest, servletStatusResponse);
+        servlet.getStatus(null, ref, servletStatusRequest, servletStatusResponse);
 
         assertEquals(HttpStatus.NOT_FOUND.value(), servletStatusResponse.getStatus());
     }
@@ -915,7 +915,7 @@ public class MapPrinterServletTest extends AbstractMapfishSpringTest {
 
         String ref = "invalid-ref";
         MockHttpServletResponse servletGetReportResponse = new MockHttpServletResponse();
-        servlet.getReport(ref, false, servletGetReportResponse);
+        servlet.getReport(null, ref, false, servletGetReportResponse);
 
         final int status = servletGetReportResponse.getStatus();
         assertEquals(HttpStatus.NOT_FOUND.value(), status);
@@ -1103,7 +1103,7 @@ public class MapPrinterServletTest extends AbstractMapfishSpringTest {
 
         final MockHttpServletRequest statusRequest = new MockHttpServletRequest();
         final MockHttpServletResponse statusResponse = new MockHttpServletResponse();
-        servlet.getStatus(ref2, statusRequest, statusResponse);
+        servlet.getStatus(null, ref2, statusRequest, statusResponse);
 
         final PJsonObject statusJson = parseJSONObjectFromString(statusResponse.getContentAsString());
         assertEquals("false", statusJson.getString(MapPrinterServlet.JSON_DONE));

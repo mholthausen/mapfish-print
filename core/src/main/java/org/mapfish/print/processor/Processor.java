@@ -28,6 +28,11 @@ public interface Processor<IN, OUT> extends ConfigurationObject {
     String MDC_JOB_ID_KEY = "job_id";
 
     /**
+     * MDC key for the application ID.
+     */
+    String MDC_APPLICATION_ID_KEY = "application_id";
+
+    /**
      * Get the class of the output type.  This is used when determining the outputs this processor produces.
      *
      * The <em>public fields</em> of the Processor will be the output of the processor and thus can be mapped

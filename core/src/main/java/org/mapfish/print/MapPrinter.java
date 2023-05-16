@@ -124,13 +124,13 @@ public class MapPrinter {
      * @param out the stream to write to.
      */
     public final Processor.ExecutionContext print(
-            final String jobId, final PJsonObject specJson, final OutputStream out)
+        final String applicationId, final String jobId, final PJsonObject specJson, final OutputStream out)
             throws Exception {
         final OutputFormat format = getOutputFormat(specJson);
         final File taskDirectory = this.workingDirectories.getTaskDirectory();
 
         try {
-            return format.print(jobId, specJson, getConfiguration(), this.configFile.getParentFile(),
+            return format.print(applicationId, jobId, specJson, getConfiguration(), this.configFile.getParentFile(),
                                 taskDirectory, out);
         } finally {
             this.workingDirectories.removeDirectory(taskDirectory);

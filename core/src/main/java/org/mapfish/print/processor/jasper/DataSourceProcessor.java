@@ -177,6 +177,7 @@ public final class DataSourceProcessor
         result.add(Values.PDF_CONFIG_KEY);
         result.add(Values.SUBREPORT_DIR_KEY);
         result.add(Values.VALUES_KEY);
+        result.add(Values.APPLICATION_ID_KEY);
         result.add(Values.JOB_ID_KEY);
         return result;
     }

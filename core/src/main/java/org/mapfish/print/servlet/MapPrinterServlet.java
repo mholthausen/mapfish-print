@@ -124,7 +124,7 @@ public class MapPrinterServlet extends BaseMapServlet {
     /**
      * If the job is done (value is true) or not (value is false).
      *
-     * Part of the {@link #getStatus(String, javax.servlet.http.HttpServletRequest,
+     * Part of the {@link #getStatus(String, String, javax.servlet.http.HttpServletRequest,
      * javax.servlet.http.HttpServletResponse)} response.
      */
     public static final String JSON_DONE = "done";
@@ -137,7 +137,7 @@ public class MapPrinterServlet extends BaseMapServlet {
      * <li>canceled</li>
      * <li>error</li>
      * </ul>
-     * Part of the {@link #getStatus(String, javax.servlet.http.HttpServletRequest,
+     * Part of the {@link #getStatus(String, String, javax.servlet.http.HttpServletRequest,
      * javax.servlet.http.HttpServletResponse)} response
      */
     public static final String JSON_STATUS = "status";
@@ -145,14 +145,14 @@ public class MapPrinterServlet extends BaseMapServlet {
      * The elapsed time in ms from the point the job started. If the job is finished, this is the duration it
      * took to process the job.
      *
-     * Part of the {@link #getStatus(String, javax.servlet.http.HttpServletRequest,
+     * Part of the {@link #getStatus(String, String, javax.servlet.http.HttpServletRequest,
      * javax.servlet.http.HttpServletResponse)} response.
      */
     public static final String JSON_ELAPSED_TIME = "elapsedTime";
     /**
      * A rough estimate for the time in ms the job still has to wait in the queue until it starts processing.
      *
-     * Part of the {@link #getStatus(String, javax.servlet.http.HttpServletRequest,
+     * Part of the {@link #getStatus(String, String, javax.servlet.http.HttpServletRequest,
      * javax.servlet.http.HttpServletResponse)} response.
      */
     public static final String JSON_WAITING_TIME = "waitingTime";
@@ -349,11 +349,11 @@ public class MapPrinterServlet extends BaseMapServlet {
      */
     @RequestMapping(value = "/{appId}" + STATUS_URL + "/{referenceId:\\S+}.json", method = RequestMethod.GET)
     public final void getStatusSpecificAppId(
-            @SuppressWarnings("unused") @PathVariable final String appId,
+            @PathVariable final String appId,
             @PathVariable final String referenceId,
             final HttpServletRequest statusRequest,
             final HttpServletResponse statusResponse) {
-        getStatus(referenceId, statusRequest, statusResponse);
+        getStatus(appId, referenceId, statusRequest, statusResponse);
     }
 
     /**
@@ -368,11 +368,32 @@ public class MapPrinterServlet extends BaseMapServlet {
      * @param statusResponse the response object
      */
     @RequestMapping(value = STATUS_URL + "/{referenceId:\\S+}.json", method = RequestMethod.GET)
-    public final void getStatus(
+    public final void getStatusPath(
             @PathVariable final String referenceId,
             final HttpServletRequest statusRequest,
             final HttpServletResponse statusResponse) {
+        getStatus(null, referenceId, statusRequest, statusResponse);
+    }
+
+    /**
+     * Get a status report on a job.  Returns the following json:
+     *
+     * <pre><code>
+     *  {"time":0,"count":0,"done":false}
+     * </code></pre>
+     *
+     * @param applicationId the application ID
+     * @param referenceId the job reference
+     * @param statusRequest the request object
+     * @param statusResponse the response object
+     */
+    public final void getStatus(
+            final String applicationId,
+            final String referenceId,
+            final HttpServletRequest statusRequest,
+            final HttpServletResponse statusResponse) {
         MDC.put(Processor.MDC_JOB_ID_KEY, referenceId);
+        MDC.put(Processor.MDC_APPLICATION_ID_KEY, applicationId);
         setNoCache(statusResponse);
         try {
             PrintJobStatus status = this.jobManager.getStatus(referenceId);
@@ -412,10 +433,10 @@ public class MapPrinterServlet extends BaseMapServlet {
      */
     @RequestMapping(value = "/{appId}" + CANCEL_URL + "/{referenceId:\\S+}", method = RequestMethod.DELETE)
     public final void cancelSpecificAppId(
-            @SuppressWarnings("unused") @PathVariable final String appId,
+            @PathVariable final String appId,
             @PathVariable final String referenceId,
             final HttpServletResponse statusResponse) {
-        cancel(referenceId, statusResponse);
+        cancel(appId, referenceId, statusResponse);
     }
 
     /**
@@ -427,10 +448,28 @@ public class MapPrinterServlet extends BaseMapServlet {
      * @param statusResponse the response object
      */
     @RequestMapping(value = CANCEL_URL + "/{referenceId:\\S+}", method = RequestMethod.DELETE)
-    public final void cancel(
+    public final void cancelPath(
             @PathVariable final String referenceId,
             final HttpServletResponse statusResponse) {
+        cancel(null, referenceId, statusResponse);
+    }
+
+    /**
+     * Cancel a job.
+     * <p>
+     * Even if a job was already finished, subsequent status requests will return that the job was canceled.
+     *
+     * @param applicationId the application ID
+     * @param referenceId the job reference
+     * @param statusResponse the response object
+     */
+    public final void cancel(
+        final String applicationId,
+        final String referenceId,
+        final HttpServletResponse statusResponse) {
+
         MDC.put(Processor.MDC_JOB_ID_KEY, referenceId);
+        MDC.put(Processor.MDC_APPLICATION_ID_KEY, applicationId);
         setNoCache(statusResponse);
         try {
             this.jobManager.cancel(referenceId);
@@ -490,28 +529,46 @@ public class MapPrinterServlet extends BaseMapServlet {
      */
     @RequestMapping(value = "/{appId}" + REPORT_URL + "/{referenceId:\\S+}", method = RequestMethod.GET)
     public final void getReportSpecificAppId(
-            @SuppressWarnings("unused") @PathVariable final String appId,
+            @PathVariable final String appId,
             @PathVariable final String referenceId,
             @RequestParam(value = "inline", defaultValue = "false") final boolean inline,
             final HttpServletResponse getReportResponse)
             throws IOException, ServletException {
-        getReport(referenceId, inline, getReportResponse);
+        getReport(appId, referenceId, inline, getReportResponse);
     }
 
     /**
      * To get the PDF created previously.
      *
-     * @param referenceId the path to the file.
+     * @param referenceId the job reference
      * @param inline whether or not to inline the
      * @param getReportResponse the response object
      */
     @RequestMapping(value = REPORT_URL + "/{referenceId:\\S+}", method = RequestMethod.GET)
-    public final void getReport(
+    public final void getReportPath(
             @PathVariable final String referenceId,
             @RequestParam(value = "inline", defaultValue = "false") final boolean inline,
             final HttpServletResponse getReportResponse)
             throws IOException, ServletException {
+        getReport(null, referenceId, inline, getReportResponse);
+    }
+
+    /**
+     * To get the PDF created previously.
+     *
+     * @param applicationId the application ID
+     * @param referenceId the job reference
+     * @param inline whether or not to inline the
+     * @param getReportResponse the response object
+     */
+    public final void getReport(
+            final String applicationId,
+            final String referenceId,
+            final boolean inline,
+            final HttpServletResponse getReportResponse)
+            throws IOException, ServletException {
         MDC.put(Processor.MDC_JOB_ID_KEY, referenceId);
+        MDC.put(Processor.MDC_APPLICATION_ID_KEY, applicationId);
         setNoCache(getReportResponse);
         loadReport(referenceId, getReportResponse, new HandleReportLoadResult<Void>() {
 
@@ -698,6 +755,7 @@ public class MapPrinterServlet extends BaseMapServlet {
             final HttpServletResponse listAppsResponse) throws ServletException,
             IOException {
         MDC.remove(Processor.MDC_JOB_ID_KEY);
+        MDC.remove(Processor.MDC_APPLICATION_ID_KEY);
         setCache(listAppsResponse);
         Set<String> appIds = this.printerFactory.getAppIds();
 
@@ -749,6 +807,7 @@ public class MapPrinterServlet extends BaseMapServlet {
             final HttpServletResponse capabilitiesResponse) throws ServletException,
             IOException {
         MDC.remove(Processor.MDC_JOB_ID_KEY);
+        MDC.remove(Processor.MDC_APPLICATION_ID_KEY);
         setCache(capabilitiesResponse);
         MapPrinter printer;
         try {
@@ -824,6 +883,7 @@ public class MapPrinterServlet extends BaseMapServlet {
             final HttpServletResponse getExampleResponse) throws
             IOException {
         MDC.remove(Processor.MDC_JOB_ID_KEY);
+        MDC.remove(Processor.MDC_APPLICATION_ID_KEY);
         setCache(getExampleResponse);
         try {
             final MapPrinter mapPrinter = this.printerFactory.create(appId);
@@ -903,6 +963,7 @@ public class MapPrinterServlet extends BaseMapServlet {
     @RequestMapping(value = FONTS_URL)
     public final void listAvailableFonts(final HttpServletResponse response) {
         MDC.remove(Processor.MDC_JOB_ID_KEY);
+        MDC.remove(Processor.MDC_APPLICATION_ID_KEY);
 
         setContentType(response);
         try (PrintWriter writer = response.getWriter()) {
@@ -1057,6 +1118,7 @@ public class MapPrinterServlet extends BaseMapServlet {
                 UUID.randomUUID().toString() + "@" + this.servletInfo.getServletId(),
                 httpServletRequest);
         MDC.put(Processor.MDC_JOB_ID_KEY, ref);
+        MDC.put(Processor.MDC_APPLICATION_ID_KEY, appId);
         LOGGER.debug("{}", specJson);
 
         specJson.getInternalObj().remove(JSON_OUTPUT_FORMAT);

@@ -77,7 +77,7 @@ public class MapExportOutputFormat implements OutputFormat {
 
     @Override
     public final Processor.ExecutionContext print(
-            final String jobId, final PJsonObject spec,
+            final String applicationId, final String jobId, final PJsonObject spec,
             final Configuration config, final File configDir,
             final File taskDirectory,
             final OutputStream outputStream) throws Exception {
@@ -85,7 +85,7 @@ public class MapExportOutputFormat implements OutputFormat {
 
         final Template template = config.getTemplate(templateName);
 
-        final Values values = new Values(jobId, spec, template, taskDirectory, this.httpRequestFactory, null,
+        final Values values = new Values(applicationId, jobId, spec, template, taskDirectory, this.httpRequestFactory, null,
                                          this.fileSuffix);
 
         final ProcessorDependencyGraph.ProcessorGraphForkJoinTask task =

@@ -38,6 +38,7 @@ public final class ConfigFileResolvingHttpRequestFactory implements MfClientHttp
     private static final Logger LOGGER = LoggerFactory.getLogger(ConfigFileResolvingHttpRequestFactory.class);
     private final Configuration config;
     private final String jobId;
+    private final String applicationId;
     private final MfClientHttpRequestFactoryImpl httpRequestFactory;
     private final List<RequestConfigurator> callbacks = new CopyOnWriteArrayList<>();
 
@@ -50,9 +51,10 @@ public final class ConfigFileResolvingHttpRequestFactory implements MfClientHttp
      */
     public ConfigFileResolvingHttpRequestFactory(
             final MfClientHttpRequestFactoryImpl httpRequestFactory,
-            final Configuration config, final String jobId) {
+            final Configuration config, final String applicationId, final String jobId) {
         this.httpRequestFactory = httpRequestFactory;
         this.config = config;
+        this.applicationId = applicationId;
         this.jobId = jobId;
     }
 
@@ -105,9 +107,11 @@ public final class ConfigFileResolvingHttpRequestFactory implements MfClientHttp
         protected synchronized ClientHttpResponse executeInternal(final HttpHeaders headers)
                 throws IOException {
             final String prev = MDC.get(Processor.MDC_JOB_ID_KEY);
+            final String prevApplication = MDC.get(Processor.MDC_APPLICATION_ID_KEY);
             boolean mdcChanged = prev == null || jobId.equals(prev);
             if (mdcChanged) {
                 MDC.put(Processor.MDC_JOB_ID_KEY, ConfigFileResolvingHttpRequestFactory.this.jobId);
+                MDC.put(Processor.MDC_APPLICATION_ID_KEY, ConfigFileResolvingHttpRequestFactory.this.applicationId);
             }
             try {
                 if (this.request != null) {
@@ -150,8 +154,10 @@ public final class ConfigFileResolvingHttpRequestFactory implements MfClientHttp
                 if (mdcChanged) {
                     if (prev != null) {
                         MDC.put(Processor.MDC_JOB_ID_KEY, prev);
+                        MDC.put(Processor.MDC_APPLICATION_ID_KEY, prevApplication);
                     } else {
                         MDC.remove(Processor.MDC_JOB_ID_KEY);
+                        MDC.remove(Processor.MDC_APPLICATION_ID_KEY);
                     }
                 }
             }

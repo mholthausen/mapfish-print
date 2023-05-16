@@ -30,7 +30,7 @@ public class StringArrayAttributeTest extends AbstractMapfishSpringTest {
         PJsonObject requestData = loadJsonRequestData();
 
         Template template = config.getTemplate("main");
-        Values values = new Values("test", requestData, template, config.getDirectory(), httpClientFactory,
+        Values values = new Values(null, "test", requestData, template, config.getDirectory(), httpClientFactory,
                                    config.getDirectory());
 
         String[] array = (String[]) values.getObject("stringarray", Object.class);
@@ -51,7 +51,7 @@ public class StringArrayAttributeTest extends AbstractMapfishSpringTest {
         requestData.getJSONObject("attributes").getInternalObj().put("stringarray", intArray);
 
         Template template = config.getTemplate("main");
-        Values values = new Values("test", requestData, template, config.getDirectory(), httpClientFactory,
+        Values values = new Values(null, "test", requestData, template, config.getDirectory(), httpClientFactory,
                                    config.getDirectory());
 
         String[] array = (String[]) values.getObject("stringarray", Object.class);

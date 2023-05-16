@@ -45,7 +45,7 @@ public class CreateMapProcessorCenterGeoJsonZoomToExtentFlexibleScaleTest extend
         final Configuration config = configurationFactory.getConfig(getFile(BASE_DIR + "config.yaml"));
         final Template template = config.getTemplate("main");
         PJsonObject requestData = loadJsonRequestData();
-        Values values = new Values("test", requestData, template, getTaskDirectory(),
+        Values values = new Values(null, "test", requestData, template, getTaskDirectory(),
                                    this.httpRequestFactory, new File("."));
 
         final ForkJoinTask<Values> taskFuture = this.forkJoinPool.submit(

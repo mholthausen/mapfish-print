@@ -59,7 +59,7 @@ public class DataSourceProcessorTest extends AbstractMapfishSpringTest {
         final Configuration config = configurationFactory.getConfig(getFile(BASE_DIR + "config.yaml"));
         final Template template = config.getTemplate("main");
         PJsonObject requestData = loadJsonRequestData();
-        Values values = new Values("test", requestData, template, getTaskDirectory(), this.httpRequestFactory,
+        Values values = new Values(null, "test", requestData, template, getTaskDirectory(), this.httpRequestFactory,
                                    new File("."));
         forkJoinPool.invoke(template.getProcessorGraph().createTask(values));
 
@@ -77,7 +77,7 @@ public class DataSourceProcessorTest extends AbstractMapfishSpringTest {
 
         final AbstractJasperReportOutputFormat format =
                 (AbstractJasperReportOutputFormat) this.outputFormat.get("pngOutputFormat");
-        JasperPrint print = format.getJasperPrint("test", requestData, config, config.getDirectory(),
+        JasperPrint print = format.getJasperPrint(null, "test", requestData, config, config.getDirectory(),
                                                   getTaskDirectory()).print;
 
         assertEquals(1, print.getPages().size());

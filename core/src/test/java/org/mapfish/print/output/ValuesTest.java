@@ -43,7 +43,7 @@ public class ValuesTest extends AbstractMapfishSpringTest {
 
         Template template = config.getTemplates().values().iterator().next();
         final Values values =
-                new Values("test", requestData, template, new File("tmp"), this.httpRequestFactory,
+                new Values(null, "test", requestData, template, new File("tmp"), this.httpRequestFactory,
                            new File("."));
 
         assertTrue(values.containsKey("title"));
@@ -76,7 +76,7 @@ public class ValuesTest extends AbstractMapfishSpringTest {
                 configurationFactory.getConfig(getFile(BASE_DIR + "config-no-defaults.yaml"));
 
         Template template = config.getTemplates().values().iterator().next();
-        new Values("test", requestData, template, new File("tmp"), this.httpRequestFactory, new File("."));
+        new Values(null, "test", requestData, template, new File("tmp"), this.httpRequestFactory, new File("."));
     }
 
     @Test
@@ -91,7 +91,7 @@ public class ValuesTest extends AbstractMapfishSpringTest {
 
         Template template = config.getTemplates().values().iterator().next();
         final Values values =
-                new Values("test", requestData, template, new File("tmp"), this.httpRequestFactory,
+                new Values(null, "test", requestData, template, new File("tmp"), this.httpRequestFactory,
                            new File("."));
 
         assertTrue(values.containsKey("title"));
@@ -131,6 +131,6 @@ public class ValuesTest extends AbstractMapfishSpringTest {
                 configurationFactory.getConfig(getFile(BASE_DIR + "config-no-defaults.yaml"));
 
         Template template = config.getTemplates().values().iterator().next();
-        new Values("test", requestData, template, new File("tmp"), this.httpRequestFactory, new File("."));
+        new Values(null, "test", requestData, template, new File("tmp"), this.httpRequestFactory, new File("."));
     }
 }

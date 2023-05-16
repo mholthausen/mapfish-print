@@ -26,6 +26,7 @@ public interface OutputFormat {
     /**
      * Performs the print and writes to the report in the correct format to the outputStream.
      *
+     * @param applicationId the application ID
      * @param jobId the job ID
      * @param spec the data from the client, required for writing.
      * @param config the configuration object representing the server side configuration.
@@ -35,7 +36,7 @@ public interface OutputFormat {
      * @param outputStream the stream to write the result to
      */
     Processor.ExecutionContext print(
-            String jobId, PJsonObject spec, Configuration config, File configDir, File taskDirectory,
+            String applicationId, String jobId, PJsonObject spec, Configuration config, File configDir, File taskDirectory,
             OutputStream outputStream) throws Exception;
 
 }

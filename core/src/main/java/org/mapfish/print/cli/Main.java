@@ -200,7 +200,7 @@ public final class Main {
                 if (LOGGER.isDebugEnabled()) {
                     LOGGER.debug("Request Data: \n{}", jsonSpec.getInternalObj().toString(2));
                 }
-                this.mapPrinter.print("main", jsonSpec, outFile);
+                this.mapPrinter.print(null, "main", jsonSpec, outFile);
             }
         }
     }

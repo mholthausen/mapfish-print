@@ -56,7 +56,7 @@ public class CreateOverviewMapProcessorStyleTest extends AbstractMapfishSpringTe
         final Configuration config = configurationFactory.getConfig(getFile(BASE_DIR + "config.yaml"));
         final Template template = config.getTemplate("main");
         PJsonObject requestData = loadJsonRequestData();
-        Values values = new Values("test", requestData, template, getTaskDirectory(), this.requestFactory,
+        Values values = new Values(null, "test", requestData, template, getTaskDirectory(), this.requestFactory,
                                    new File("."));
 
         final ForkJoinTask<Values> taskFuture = this.forkJoinPool.submit(

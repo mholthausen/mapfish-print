@@ -55,7 +55,7 @@ public class CreateMapProcessorAoiForBoundsTest extends AbstractMapfishSpringTes
 
         PJsonObject requestData = loadJsonRequestData();
 
-        Values values = new Values("test", requestData, template, getTaskDirectory(), this.requestFactory,
+        Values values = new Values(null, "test", requestData, template, getTaskDirectory(), this.requestFactory,
                                    new File("."));
 
         final ForkJoinTask<Values> taskFuture = this.forkJoinPool.submit(

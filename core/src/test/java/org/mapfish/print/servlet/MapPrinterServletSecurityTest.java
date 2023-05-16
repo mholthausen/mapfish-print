@@ -110,7 +110,7 @@ public class MapPrinterServletSecurityTest extends AbstractMapfishSpringTest {
         while (!done) {
             MockHttpServletRequest servletStatusRequest = new MockHttpServletRequest("GET", statusURL);
             MockHttpServletResponse servletStatusResponse = new MockHttpServletResponse();
-            servlet.getStatus(ref, servletStatusRequest, servletStatusResponse);
+            servlet.getStatus(null, ref, servletStatusRequest, servletStatusResponse);
 
             String contentAsString = servletStatusResponse.getContentAsString();
 
@@ -126,7 +126,7 @@ public class MapPrinterServletSecurityTest extends AbstractMapfishSpringTest {
         try {
             AccessAssertionTestUtil.setCreds("ROLE_USER");
             final MockHttpServletResponse getResponse1 = new MockHttpServletResponse();
-            this.servlet.getReport(ref, false, getResponse1);
+            this.servlet.getReport(null, ref, false, getResponse1);
             fail("Expected an AccessDeniedException");
         } catch (AccessDeniedException e) {
             // good
@@ -135,7 +135,7 @@ public class MapPrinterServletSecurityTest extends AbstractMapfishSpringTest {
 
         try {
             final MockHttpServletResponse getResponse2 = new MockHttpServletResponse();
-            this.servlet.getReport(ref, false, getResponse2);
+            this.servlet.getReport(null, ref, false, getResponse2);
             assertEquals(HttpStatus.UNAUTHORIZED.value(), servletCreateResponse.getStatus());
             fail("Expected an AuthenticationCredentialsNotFoundException");
         } catch (AuthenticationCredentialsNotFoundException e) {

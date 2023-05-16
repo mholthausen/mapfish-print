@@ -201,13 +201,15 @@ public abstract class AbstractProcessor<IN, OUT> implements Processor<IN, OUT> {
      */
     public static final class Context implements ExecutionContext {
         private final String jobId;
+        private final String applicationId;
         private volatile boolean canceled = false;
         private ExecutionStats stats = new ExecutionStats();
 
         /**
          * @param jobId The job ID.
          */
-        public Context(final String jobId) {
+        public Context(final String applicationId, final String jobId) {
+            this.applicationId = applicationId;
             this.jobId = jobId;
         }
 
@@ -240,9 +242,11 @@ public abstract class AbstractProcessor<IN, OUT> implements Processor<IN, OUT> {
         public <T> T mdcContext(final Supplier<T> action) {
             this.stopIfCanceled();
             final String prev = MDC.get(MDC_JOB_ID_KEY);
+            final String prevApplication = MDC.get(MDC_APPLICATION_ID_KEY);
             boolean changed = prev == null || (jobId != null && jobId.equals(prev));
             if (changed) {
                 MDC.put(MDC_JOB_ID_KEY, this.jobId);
+                MDC.put(MDC_APPLICATION_ID_KEY, this.applicationId);
             }
             try {
                 return action.get();
@@ -250,8 +254,10 @@ public abstract class AbstractProcessor<IN, OUT> implements Processor<IN, OUT> {
                 if (changed) {
                     if (prev != null) {
                         MDC.put(MDC_JOB_ID_KEY, prev);
+                        MDC.put(MDC_APPLICATION_ID_KEY, prevApplication);
                     } else {
                         MDC.remove(MDC_JOB_ID_KEY);
+                        MDC.remove(MDC_APPLICATION_ID_KEY);
                     }
                 }
             }
@@ -261,9 +267,11 @@ public abstract class AbstractProcessor<IN, OUT> implements Processor<IN, OUT> {
         public <T> T mdcContextEx(final Callable<T> action) throws Exception {
             this.stopIfCanceled();
             final String prev = MDC.get(MDC_JOB_ID_KEY);
+            final String prevApplication = MDC.get(MDC_APPLICATION_ID_KEY);
             boolean mdcChanged = prev == null || jobId.equals(prev);
             if (mdcChanged) {
                 MDC.put(MDC_JOB_ID_KEY, this.jobId);
+                MDC.put(MDC_APPLICATION_ID_KEY, this.applicationId);
             }
             try {
                 return action.call();
@@ -271,8 +279,10 @@ public abstract class AbstractProcessor<IN, OUT> implements Processor<IN, OUT> {
                 if (mdcChanged) {
                     if (prev != null) {
                         MDC.put(MDC_JOB_ID_KEY, prev);
+                        MDC.put(MDC_APPLICATION_ID_KEY, prevApplication);
                     } else {
                         MDC.remove(MDC_JOB_ID_KEY);
+                        MDC.remove(MDC_APPLICATION_ID_KEY);
                     }
                 }
             }

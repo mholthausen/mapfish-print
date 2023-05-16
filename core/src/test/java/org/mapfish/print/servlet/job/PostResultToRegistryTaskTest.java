@@ -117,7 +117,7 @@ public class PostResultToRegistryTaskTest extends AbstractMapfishSpringTest {
 
         @Override
         protected PrintResult withOpenOutputStream(PrintAction function) throws Exception {
-            return new PrintResult(42, new AbstractProcessor.Context("test"));
+            return new PrintResult(42, new AbstractProcessor.Context(null, "test"));
         }
 
         @Override

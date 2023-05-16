@@ -35,7 +35,7 @@ public class JasperReportOutputFormatSimpleMapTest extends AbstractMapfishSpring
 
         final AbstractJasperReportOutputFormat format =
                 (AbstractJasperReportOutputFormat) this.outputFormat.get("pngOutputFormat");
-        JasperPrint print = format.getJasperPrint("test", requestData, config,
+        JasperPrint print = format.getJasperPrint(null, "test", requestData, config,
                                                   getFile(JasperReportOutputFormatSimpleMapTest.class,
                                                           BASE_DIR), getTaskDirectory()).print;
 
@@ -56,7 +56,7 @@ public class JasperReportOutputFormatSimpleMapTest extends AbstractMapfishSpring
                 continue;
             }
             final OutputStream outputStream = new ByteArrayOutputStream();
-            format.print("test", requestData, config,
+            format.print(null, "test", requestData, config,
                          getFile(JasperReportOutputFormatSimpleMapTest.class, BASE_DIR),
                          getTaskDirectory(), outputStream);
             // no error?  its a pass

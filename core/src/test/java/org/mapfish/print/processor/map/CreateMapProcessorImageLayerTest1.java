@@ -50,7 +50,7 @@ public class CreateMapProcessorImageLayerTest1 extends AbstractMapfishSpringTest
                 getFile(BASE_DIR + "config.yaml"));
         final Template template = config.getTemplate("main");
         PJsonObject requestData = loadJsonRequestData();
-        Values values = new Values("test", requestData, template, getTaskDirectory(),
+        Values values = new Values(null, "test", requestData, template, getTaskDirectory(),
                                    this.requestFactory, new File("."));
         template.getProcessorGraph().createTask(values).invoke();
 

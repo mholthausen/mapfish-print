@@ -52,7 +52,7 @@ public class LineGridStrategyTest {
         double dpi = 72;
         MapfishMapContext context = new MapfishMapContext(bounds, mapSize, rotation, dpi, true, true);
         final List<? extends Layer> layers = layer.getLayers(new TestHttpClientFactory(), context,
-                                                             new AbstractProcessor.Context("test"));
+                                                             new AbstractProcessor.Context(null, "test"));
         assertEquals(1, layers.size());
 
         FeatureSource<?, ?> fs = layers.get(0).getFeatureSource();
@@ -92,7 +92,7 @@ public class LineGridStrategyTest {
         double dpi = 72;
         MapfishMapContext context = new MapfishMapContext(bounds, mapSize, rotation, dpi, true, true);
         final List<? extends Layer> layers = layer.getLayers(new TestHttpClientFactory(), context,
-                                                             new AbstractProcessor.Context("test"));
+                                                             new AbstractProcessor.Context(null, "test"));
         assertEquals(1, layers.size());
 
         FeatureSource<?, ?> fs = layers.get(0).getFeatureSource();

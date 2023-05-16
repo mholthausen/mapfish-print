@@ -47,7 +47,7 @@ public class JasperReportPDFOutputFormatTest extends AbstractMapfishSpringTest {
         PJsonObject requestData = loadJsonRequestData();
         OutputStream outputStream = new ByteArrayOutputStream();
         OutputFormat format = this.outputFormat.get("pdfOutputFormat");
-        format.print("test", requestData, config,
+        format.print(null, "test", requestData, config,
                      getFile(JasperReportPDFOutputFormatTest.class, BASE_DIR), getTaskDirectory(),
                      outputStream);
         assertAllMethodsCalled(pdfConfigSpy);
@@ -75,7 +75,7 @@ public class JasperReportPDFOutputFormatTest extends AbstractMapfishSpringTest {
         PJsonObject requestData = loadJsonRequestData();
         OutputStream outputStream = new ByteArrayOutputStream();
         OutputFormat format = this.outputFormat.get("pdfOutputFormat");
-        format.print("test", requestData, config,
+        format.print(null, "test", requestData, config,
                      getFile(JasperReportPDFOutputFormatTest.class, BASE_DIR), getTaskDirectory(),
                      outputStream);
         assertAllMethodsCalled(pdfConfigSpy);
@@ -103,7 +103,7 @@ public class JasperReportPDFOutputFormatTest extends AbstractMapfishSpringTest {
         PJsonObject requestData = loadJsonRequestData();
         OutputStream outputStream = new ByteArrayOutputStream();
         OutputFormat format = this.outputFormat.get("pdfOutputFormat");
-        format.print("test", requestData, config,
+        format.print(null, "test", requestData, config,
                      getFile(JasperReportPDFOutputFormatTest.class, BASE_DIR), getTaskDirectory(),
                      outputStream);
         assertAllMethodsCalled(pdfConfigSpy);
@@ -131,7 +131,7 @@ public class JasperReportPDFOutputFormatTest extends AbstractMapfishSpringTest {
         PJsonObject requestData = loadJsonRequestData();
         OutputStream outputStream = new ByteArrayOutputStream();
         OutputFormat format = this.outputFormat.get("pdfOutputFormat");
-        format.print("test", requestData, config,
+        format.print(null, "test", requestData, config,
                      getFile(JasperReportPDFOutputFormatTest.class, BASE_DIR), getTaskDirectory(),
                      outputStream);
         assertAllMethodsCalled(pdfConfigSpy);

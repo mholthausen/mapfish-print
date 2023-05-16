@@ -64,6 +64,10 @@ public final class Values {
      */
     public static final String JOB_ID_KEY = "jobId";
     /**
+     * The key for the reference ID.
+     */
+    public static final String APPLICATION_ID_KEY = "applicationId";
+    /**
      * The key for the values object of it self.
      */
     public static final String VALUES_KEY = "values";
@@ -94,6 +98,7 @@ public final class Values {
     /**
      * Construct from the json request body and the associated template.
      *
+     * @param applicationId the application ID
      * @param jobId the job ID
      * @param requestData the json request data
      * @param template the template
@@ -102,18 +107,20 @@ public final class Values {
      * @param jasperTemplateBuild the directory where the jasper templates are compiled to
      */
     public Values(
+            final String applicationId,
             final String jobId,
             final PJsonObject requestData,
             final Template template,
             final File taskDirectory,
             final MfClientHttpRequestFactoryImpl httpRequestFactory,
             final File jasperTemplateBuild) {
-        this(jobId, requestData, template, taskDirectory, httpRequestFactory, jasperTemplateBuild, null);
+        this(applicationId, jobId, requestData, template, taskDirectory, httpRequestFactory, jasperTemplateBuild, null);
     }
 
     /**
      * Construct from the json request body and the associated template.
      *
+     * @param applicationId the application ID
      * @param jobId the job ID
      * @param requestData the json request data
      * @param template the template
@@ -124,6 +131,7 @@ public final class Values {
      */
     //CHECKSTYLE:OFF
     public Values(
+            final String applicationId,
             final String jobId,
             final PJsonObject requestData,
             final Template template,
@@ -138,7 +146,7 @@ public final class Values {
         this.values.put(TASK_DIRECTORY_KEY, taskDirectory);
         this.values.put(CLIENT_HTTP_REQUEST_FACTORY_KEY,
                         new MfClientHttpRequestFactoryProvider(new ConfigFileResolvingHttpRequestFactory(
-                                httpRequestFactory, template.getConfiguration(), jobId)));
+                                httpRequestFactory, template.getConfiguration(), applicationId, jobId)));
         this.values.put(TEMPLATE_KEY, template);
         this.values.put(PDF_CONFIG_KEY, template.getPdfConfig());
         if (jasperTemplateBuild != null) {
@@ -154,6 +162,7 @@ public final class Values {
         populateFromAttributes(template, attributes, jsonAttributes);
 
         this.values.put(JOB_ID_KEY, jobId);
+        this.values.put(APPLICATION_ID_KEY, applicationId == null ? "" : applicationId);
 
         this.values.put(VALUES_KEY, this);
 
@@ -268,6 +277,7 @@ public final class Values {
         this.values.put(SUBREPORT_DIR_KEY, subReportDir);
         this.values.put(VALUES_KEY, this);
         this.values.put(JOB_ID_KEY, sourceValues.getString(JOB_ID_KEY));
+        this.values.put(APPLICATION_ID_KEY, sourceValues.getString(APPLICATION_ID_KEY));
         this.values.put(LOCALE_KEY, sourceValues.getObject(LOCALE_KEY, Locale.class));
     }
 

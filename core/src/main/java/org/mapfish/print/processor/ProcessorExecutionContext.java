@@ -27,7 +27,7 @@ public final class ProcessorExecutionContext {
      */
     public ProcessorExecutionContext(final Values values) {
         this.values = values;
-        this.context = new Context(values.getString(Values.JOB_ID_KEY));
+        this.context = new Context(values.getString(Values.APPLICATION_ID_KEY), values.getString(Values.JOB_ID_KEY));
     }
 
     public Values getValues() {

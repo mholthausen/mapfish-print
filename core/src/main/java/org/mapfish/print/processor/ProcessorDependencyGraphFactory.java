@@ -190,6 +190,7 @@ public final class ProcessorDependencyGraphFactory {
         outputTypes.put(Values.PDF_CONFIG_KEY, PDFConfig.class);
         outputTypes.put(Values.SUBREPORT_DIR_KEY, String.class);
         outputTypes.put(Values.OUTPUT_FORMAT_KEY, String.class);
+        outputTypes.put(Values.APPLICATION_ID_KEY, String.class);
         outputTypes.put(Values.JOB_ID_KEY, String.class);
         outputTypes.put(MapPrinterServlet.JSON_REQUEST_HEADERS, HttpRequestHeadersAttribute.Value.class);
         outputTypes.put(Values.LOCALE_KEY, Locale.class);

@@ -29,7 +29,7 @@ public class JasperReportSvgOutputFormatTest extends AbstractJasperReportOutputF
         PJsonObject requestData = loadJsonRequestData();
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         OutputFormat format = this.outputFormat.get("svgOutputFormat");
-        format.print("test", requestData, config,
+        format.print(null, "test", requestData, config,
                 getFile(JasperReportSvgOutputFormatTest.class, BASE_DIR), getTaskDirectory(),
                 outputStream);
 

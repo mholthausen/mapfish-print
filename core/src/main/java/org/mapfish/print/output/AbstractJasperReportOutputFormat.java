@@ -91,10 +91,10 @@ public abstract class AbstractJasperReportOutputFormat implements OutputFormat {
 
     @Override
     public final Processor.ExecutionContext print(
-            final String jobId, final PJsonObject requestData, final Configuration config,
+            final String applicationId, final String jobId, final PJsonObject requestData, final Configuration config,
             final File configDir, final File taskDirectory, final OutputStream outputStream)
             throws Exception {
-        final Print print = getJasperPrint(jobId, requestData, config, configDir, taskDirectory);
+        final Print print = getJasperPrint(applicationId, jobId, requestData, config, configDir, taskDirectory);
 
         if (Thread.currentThread().isInterrupted()) {
             throw new CancellationException();
@@ -125,7 +125,7 @@ public abstract class AbstractJasperReportOutputFormat implements OutputFormat {
      */
     @VisibleForTesting
     public final Print getJasperPrint(
-            final String jobId, final PJsonObject requestData,
+            final String applicationId, final String jobId, final PJsonObject requestData,
             final Configuration config, final File configDir, final File taskDirectory)
             throws JRException, SQLException, ExecutionException {
         final String templateName = requestData.getString(Constants.JSON_LAYOUT_KEY);
@@ -136,7 +136,7 @@ public abstract class AbstractJasperReportOutputFormat implements OutputFormat {
                 config, jasperTemplateFile, JasperReportBuilder.JASPER_REPORT_COMPILED_FILE_EXT,
                 LOGGER);
 
-        final Values values = new Values(jobId, requestData, template, taskDirectory,
+        final Values values = new Values(applicationId, jobId, requestData, template, taskDirectory,
                                          this.httpRequestFactory, jasperTemplateBuild.getParentFile());
 
         double maxDpi = maxDpi(values);

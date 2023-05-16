@@ -32,7 +32,7 @@ public class StyleAttributeTest extends AbstractMapfishSpringTest {
         final Template template = config.getTemplate("main");
         final PJsonObject pJsonObject =
                 parseJSONObjectFromFile(StyleAttributeTest.class, "style_attributes/request.json");
-        final Values values = new Values("test", pJsonObject, template, this.folder.getRoot(),
+        final Values values = new Values(null, "test", pJsonObject, template, this.folder.getRoot(),
                                          this.clientHttpRequestFactory, new File("."));
         final StyleAttribute.StylesAttributeValues value =
                 values.getObject("styleDef", StyleAttribute.StylesAttributeValues.class);

@@ -84,20 +84,10 @@
             <property name="checkFormat" value="$1"/>
         </module>
     </module>
-    <module name="LineLength">
-        <property name="max" value="110"/>
-    </module>
-    <module name="NewlineAtEndOfFile"/>
     <module name="JavadocPackage"/>
     <module name="Translation"/>
     <module name="FileLength"/>
     <module name="FileTabCharacter">
-        <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
-    </module>
-    <module name="RegexpSingleline">
-        <property name="severity" value="ignore"/>
-        <property name="format" value="\s+$"/>
-        <property name="message" value="Line has trailing spaces."/>
         <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
     </module>
     <module name="SuppressionFilter">

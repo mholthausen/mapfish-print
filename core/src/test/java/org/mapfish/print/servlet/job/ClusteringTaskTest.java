@@ -96,7 +96,7 @@ public class ClusteringTaskTest extends AbstractMapfishSpringTest {
                     System.out.println(getEntry().getReferenceId() + " is being run by jobman " + name);
                     TestJobManager.this.jobsRun++;
                     Thread.sleep(1000);
-                    return new PrintResult(42, new AbstractProcessor.Context("test"));
+                    return new PrintResult(42, new AbstractProcessor.Context(null, "test"));
                 }
 
                 @Override
