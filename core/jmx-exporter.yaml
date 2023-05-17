@@ -1,0 +1,9 @@
+startDelaySeconds: 30
+#hostPort: 127.0.0.1:9010
+username:
+password:
+ssl: false
+lowercaseOutputLabelNames: true
+lowercaseOutputName: true
+#whitelistObjectNames:
+#  - java.lang:*
