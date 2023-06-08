@@ -35,7 +35,8 @@ import java.util.regex.Pattern;
 public final class ColorParser {
     private static final float MAX_INT_COLOR = 255f;
 
-    private static final String NUMBER_PATTERN = "\\s*(\\d*\\.?\\d*[%f]?)\\s*";
+    // Example of matched strings: ' 50% ', ' 50.0 ', ' 0.5f '
+    private static final String NUMBER_PATTERN = "\\s{0,3}(\\d*\\.?\\d*[%f]?)\\s*";
     private static final Pattern RGB_COLOR_EXTRACTOR = Pattern.compile(
             "rgb\\s*\\(" + NUMBER_PATTERN + "," + NUMBER_PATTERN + "," + NUMBER_PATTERN + "\\)");
     private static final Pattern RGBA_COLOR_EXTRACTOR = Pattern.compile(
