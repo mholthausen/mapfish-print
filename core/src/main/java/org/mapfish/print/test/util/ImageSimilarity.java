@@ -360,7 +360,7 @@ public final class ImageSimilarity {
    * @throws IOException if the image could not be written.
    */
   public void assertSimilarity(final BufferedImage actualImage) throws IOException {
-    assertSimilarity(actualImage, 0);
+    assertSimilarity(actualImage, 1);
   }
 
   /**
