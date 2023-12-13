@@ -1,6 +1,10 @@
 GIT_HEAD_ARG = --build-arg=GIT_HEAD=$(shell git rev-parse HEAD)
 export DOCKER_BUILDKIT = 1
 
+.PHONY: clean
+clean:
+	rm -rf .env examples/geoserver-data/logs/
+	
 .PHONY: build
 build: build-builder
 	docker build $(GIT_HEAD_ARG) --target=runner --tag=camptocamp/mapfish_print core
@@ -76,3 +80,4 @@ dist: build-builder
 
 .env:
 	echo "USER_ID=$(shell id -u):$(shell id -g)" > $@
+	echo "USER_0_ID=$(shell id -u):0" >> $@

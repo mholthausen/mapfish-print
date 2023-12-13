@@ -12,3 +12,6 @@
 
 **/actual*.png
 **/diff*.png
+
+/examples/geoserver-data/logs/
+

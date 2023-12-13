@@ -4,8 +4,10 @@ version: '2.1'
 services:
   geoserver:
     image: camptocamp/geoserver:2.17
+    #user: ${USER_0_ID}
     volumes:
-      - ./core/bin/test/map-data/:/usr/local/tomcat/webapps/ROOT/data/www/map-data
+      - ./examples/geoserver-data/:/mnt/geoserver_datadir
+      - ./core/bin/test/map-data/:/mnt/geoserver_datadir/www/map-data
 
   print:
     image: mapfish_print_tester
