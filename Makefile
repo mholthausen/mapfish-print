@@ -44,14 +44,7 @@ tests: build-builder
 
 .PHONY: acceptance-tests-up
 acceptance-tests-up: build .env
-	docker-compose down --remove-orphan
-
-	mkdir /tmp/geoserver-data || true
-	docker run --rm --volume=/tmp/geoserver-data:/mnt/geoserver_datadir camptocamp/geoserver \
-		bash -c 'rm -rf /mnt/geoserver_datadir/*'
-	mkdir /tmp/geoserver-data/www
-	cp -r examples/geoserver-data/* /tmp/geoserver-data/
-	cp -r core/src/test/resources/map-data/* /tmp/geoserver-data/www/
+	docker-compose down
 
 	# Required to avoid root ownership of reports folder
 	mkdir -p examples/build/reports/ || true
