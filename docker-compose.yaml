@@ -3,9 +3,10 @@ version: '2.1'
 
 services:
   geoserver:
-    image: camptocamp/geoserver:2.17
+    image: camptocamp/geoserver:2.22.2
     volumes:
-      - /tmp/geoserver-data:/mnt/geoserver_datadir
+      - ./examples/geoserver-data/:/mnt/geoserver_datadir
+      - ./core/src/test/resources/map-data/:/mnt/geoserver_datadir/www/map-data
 
   print:
     image: mapfish_print_tester
@@ -24,7 +25,7 @@ services:
     user: ${USER_ID}
     command: tail --follow /dev/null
     volumes:
-      - ./examples/src:/src/examples/src:ro
+      - ./examples/src:/src/examples/src
       - ./examples/build/reports:/src/examples/build/reports
       - ./examples/build/resources:/src/examples/build/resources
     environment:
