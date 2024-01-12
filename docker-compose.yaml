@@ -25,7 +25,7 @@ services:
     user: ${USER_ID}
     command: tail --follow /dev/null
     volumes:
-      - ./examples/src:/src/examples/src
+      - ./examples/src/test/resources/examples:/src/examples/src/test/resources/examples
       - ./examples/build/reports:/src/examples/build/reports
       - ./examples/build/resources:/src/examples/build/resources
     environment:

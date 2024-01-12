@@ -25,7 +25,7 @@ templates:
           # !mapUri can have multiple mappings but this only shows a single example
           - !mapUri
             mapping:
-              https?://myhost.com:8080/(.*): "http://geoserver:8080/geoserver/$1"
+              (http)://myhost.com(.*): "$1://geoserver$2"
           # Take the Cookie and Referrer headers from the print request and add them to all http requests of the associated print job
           - !forwardHeaders
             headers:

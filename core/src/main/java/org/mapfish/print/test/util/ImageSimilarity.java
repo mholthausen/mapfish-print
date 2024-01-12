@@ -257,11 +257,13 @@ public final class ImageSimilarity {
         actualIterator.getPixel(x, y, actualPixel);
         maskIterator.getPixel(x, y, maskPixel);
         double squareDist = 0.0;
-        if (maskPixel[0] > 127) {
+        if (maskPixel[0] == 255) {
           for (int i = 0; i < this.expectedImage.getSampleModel().getNumBands(); i++) {
             double colorDist = expectedPixel[i] - actualPixel[i];
             squareDist += colorDist * colorDist;
           }
+        } else if (maskPixel[0] != 0) {
+          throw new RuntimeExeption("Mask image must be only black and white (0 and 255)");
         }
         double pxDiff = Math.sqrt(squareDist / this.expectedImage.getSampleModel().getNumBands());
         dist += pxDiff / 255;
