@@ -193,6 +193,12 @@ public final class ImageLayer extends AbstractSingleImageLayer {
     imageBufferScaling =
         Math.sqrt(
             (Math.pow(widthImageBufferScaling, 2) + Math.pow(heightImageBufferScaling, 2)) / 2);
+    if (imageBufferScaling >= 2) {
+      // Simplify the image by multiple of 2
+      imageBufferScaling =
+          imageBufferScaling
+              / Math.pow((int) (Math.floor(Math.log(imageBufferScaling) / Math.log(2))), 2);
+    }
   }
 
   private BufferedImage fetchLayerImage(
